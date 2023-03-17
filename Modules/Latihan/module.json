@@ -1,0 +1,11 @@
+{
+    "name": "Latihan",
+    "alias": "latihan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Latihan\\Providers\\LatihanServiceProvider"
+    ],
+    "files": []
+}
