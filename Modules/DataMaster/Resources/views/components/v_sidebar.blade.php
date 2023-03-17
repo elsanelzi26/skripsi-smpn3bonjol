@@ -9,8 +9,6 @@
                 <li><a href="{{ route('dashboard') }}"><i class="ti-home" style="color:purple"></i>Dashboard</a></li>
 
                 @if(auth()->user()->role=="1")
-                  
-
                     <li><a class="sidebar-sub-toggle"><i class="ti-server"></i> Data Master <span class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
                             <li><a href="{{ route('jeniskelamin.index') }}"><i class="fa fa-circle-o" style="color:purple"></i>Jenis Kelamin</a></li>
@@ -20,26 +18,24 @@
                         </ul>
                     </li> 
 
-                  
-
-                    
                     <li><a href="{{ route('validasipermohonanadmin.index') }}"><i class="ti-home" style="color:purple"></i>Validasi Permohonan</a></li>
 
                     <li><a class="sidebar-sub-toggle"><i class="ti-server"></i> Laporan <span class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a href=""><i class="fa fa-circle-o" style="color:purple"></i>DP Diajukan</a></li>
-                            <li><a href=""><i class="fa fa-circle-o" style="color:cyan"></i>DP Diterbitkan</a></li>
-                            <li><a href=""><i class="fa fa-circle-o" style="color:red"></i>DP Perskala TR</a></li>
-                            <li><a href=""><i class="fa fa-circle-o" style="color:white"></i>DP Perkecamatan Kelurahan</a></li>
+                            <li><a href="//"><i class="fa fa-circle-o" style="color:purple"></i>DP Diajukan</a></li>
+                            <li><a href="//"><i class="fa fa-circle-o" style="color:cyan"></i>DP Diterbitkan</a></li>
+                            <li><a href="//"><i class="fa fa-circle-o" style="color:red"></i>DP Perskala TR</a></li>
+                            <li><a href="//"><i class="fa fa-circle-o" style="color:white"></i>DP Perkecamatan Kelurahan</a></li>
                         </ul>
-                    </li>
+                    </li> 
+
                     <li><a class="sidebar-sub-toggle"><i class="ti-server"></i> Grafik <span class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
-                            <li><a href=""><i class="fa fa-circle-o" style="color:purple"></i>JP Diajukan</a></li>
-                            <li><a href=""><i class="fa fa-circle-o" style="color:cyan"></i>JP Diterbitkan</a></li>
-                            <li><a href=""><i class="fa fa-circle-o" style="color:red"></i>JP Perkecamatan Kelurahan</a></li>
+                            <li><a href="///"><i class="fa fa-circle-o" style="color:purple"></i>JP Diajukan</a></li>
+                            <li><a href="///"><i class="fa fa-circle-o" style="color:cyan"></i>JP Diterbitkan</a></li>
+                            <li><a href="///"><i class="fa fa-circle-o" style="color:red"></i>JP Perkecamatan Kelurahan</a></li>
                         </ul>
-                    </li>
+                    </li> 
                     
                     <li><a href=""><i class="ti-home" style="color:purple"></i>Cetak Permohonan</a></li>
                 @endif
