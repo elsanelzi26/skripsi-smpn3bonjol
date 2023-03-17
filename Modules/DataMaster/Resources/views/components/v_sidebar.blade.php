@@ -12,7 +12,7 @@
                     <li><a class="sidebar-sub-toggle"><i class="ti-server"></i> Data Master <span class="sidebar-collapse-icon ti-angle-down"></span></a>
                         <ul>
                             <li><a href="{{ route('jeniskelamin.index') }}"><i class="fa fa-circle-o" style="color:purple"></i>Jenis Kelamin</a></li>
-                            <li><a href="{{ route('pendidikan.index') }}"><i class="fa fa-circle-o" style="color:cyan"></i>Pendikan</a></li>
+                            <li><a href="{{ route('pendidikan.index') }}"><i class="fa fa-circle-o" style="color:cyan"></i>Pendidikan</a></li>
                             <li><a href="{{ route('agama.index') }}"><i class="fa fa-circle-o" style="color:red"></i>Agama</a></li>
                             <li><a href="{{ route('detailuser.index') }}"><i class="fa fa-circle-o" style="color:white"></i>Manajemen User</a></li>
                         </ul>
