@@ -5,75 +5,50 @@ namespace Modules\DataMaster\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Absensi\Entities\AbsensiModel;
+use Modules\DataMaster\Entities\JenisLombaModel;
+use Modules\DataMaster\Entities\KelasModel;
+use Modules\DataMaster\Entities\MataPelajaranModel;
+use Modules\DataMaster\Entities\PegawaiModel;
+use Modules\DataMaster\Entities\RoleModel;
+use Modules\DataMaster\Entities\SiswaModel;
+use Modules\DataMaster\Entities\TahunAjaranModel;
+use Modules\Penilaian\Entities\PenilaianModel;
+use Modules\Penilaian\Entities\PrestasiModel;
+use Modules\Penilaian\Entities\RekapMasalahModel;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
     public function index()
     {
-        return view('datamaster::pages.dashboard.v_dashboard');
+        $count_role         = RoleModel::count();
+        $count_tahun_ajaran = TahunAjaranModel::count();
+        $count_pegawai      = PegawaiModel::count();
+        $count_siswa        = SiswaModel::count();
+        $count_kelas        = KelasModel::count();
+        $count_mapel        = MataPelajaranModel::count();
+        $count_lomba        = JenisLombaModel::count();
+        $count_monitoring   = 1; // Default 1 karena cuma 1 anak per akun ortu
+        $count_absensi      = AbsensiModel::count();
+        $count_penilaian    = PenilaianModel::count();
+        $count_prestasi     = PrestasiModel::count();
+        $count_rekap_siswa_bermasalah = RekapMasalahModel::count();
+
+        return view('datamaster::dashboard.index', compact(
+            'count_role',
+            'count_tahun_ajaran',
+            'count_pegawai',
+            'count_siswa',
+            'count_kelas',
+            'count_mapel',
+            'count_lomba',
+            'count_monitoring',
+            'count_absensi',
+            'count_penilaian',
+            'count_prestasi',
+            'count_rekap_siswa_bermasalah'
+        ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('datamaster::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('datamaster::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('datamaster::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
+   
 }

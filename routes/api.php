@@ -15,17 +15,6 @@ use App\Http\Controllers\ProdukController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-// Route::post('register', [RegisterController::class, 'register']);
-// Route::post('login', [RegisterController::class, 'login']);
-     
-// Route::middleware('auth:api')->group( function () {
-//     Route::resource('produk', ProdukController::class);
-// });
-
-Route::group(['prefix'=> 'produk'], function(){
-    Route::get('/produk', [ProdukController::class, 'index'])->middleware('auth:api');
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });

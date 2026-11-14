@@ -1,19 +1,16 @@
 <?php
 
-use Modules\DataMaster\Http\Controllers\AuthController;
-use Modules\DataMaster\Http\Controllers\AgamaController;
-use Modules\DataMaster\Http\Controllers\GrafikController;
-use Modules\DataMaster\Http\Controllers\RegisterController;
+use Modules\Auth\Http\Controllers\AuthController;
 use Modules\DataMaster\Http\Controllers\DashboardController;
-use Modules\DataMaster\Http\Controllers\DetailUserController;
-use Modules\DataMaster\Http\Controllers\PendidikanController;
-use Modules\DataMaster\Http\Controllers\JenisKelaminController;
-use Modules\DataMaster\Http\Controllers\LaporanTableController;
-use Modules\DataMaster\Http\Controllers\ManajemenUserController;
-use Modules\DataMaster\Http\Controllers\AjukanPermohonanController;
-use Modules\DataMaster\Http\Controllers\DependantDropdownController;
-
-
+use Modules\DataMaster\Http\Controllers\RolesController;
+use Modules\DataMaster\Http\Controllers\TahunAjaranController;
+use Modules\DataMaster\Http\Controllers\JenisLombaController;
+use Modules\DataMaster\Http\Controllers\KelasController;
+use Modules\DataMaster\Http\Controllers\MataPelajaranController;
+use Modules\DataMaster\Http\Controllers\GuruMapelController;
+use Modules\DataMaster\Http\Controllers\SiswaController;
+use Modules\DataMaster\Http\Controllers\OrtuController;
+use Modules\DataMaster\Http\Controllers\PegawaiController;
 
 
 /*
@@ -27,170 +24,100 @@ use Modules\DataMaster\Http\Controllers\DependantDropdownController;
 |
 */
 
-     //  Indoregion
-     Route::post('/getkabupaten', [RegisterController::class, 'getkabupaten'])->name('getkabupaten');
-     Route::post('/getkecamatan', [RegisterController::class, 'getkecamatan'])->name('getkecamatan');
-     Route::post('/getkelurahan', [RegisterController::class, 'getkelurahan'])->name('getkelurahan');
+Route::prefix('datamaster')->group(function() {
+    Route::get('/', 'DataMasterController@index');
+});
 
-Route::group(['middleware' => ['guest']],function () {
-      // Login
-      Route::get('/', [AuthController::class, 'index'])->name('login');
-      Route::post('/proses-login', [AuthController::class, 'proseslogin'])->name('proses_login');
+Route::group(['middleware' => ['guest']], function () {
+
+  // Home
+  //  Route::get('/', [HomeFrontendController::class, 'index'])->name('home');
+  //  Route::get('/kontak', [HomeFrontendController::class, 'kontak'])->name('kontak');
+  //  Route::get('/galeri', [HomeFrontendController::class, 'galeri'])->name('galeri');
+  //  Route::get('/video', [HomeFrontendController::class, 'video'])->name('video');
+  //  Route::get('/struktur_organisasi', [HomeFrontendController::class, 'struktur_organisasi'])->name('struktur_organisasi');
+  //  Route::get('/berita', [HomeFrontendController::class, 'berita'])->name('berita');
+  //  Route::get('/view_berita/{id}', [HomeFrontendController::class, 'view_berita'])->name('view_berita');
+  //  Route::get('/ekstrakurikuler', [HomeFrontendController::class, 'ekstrakurikuler'])->name('ekstrakurikuler');
+  //  Route::get('/pengumuman', [HomeFrontendController::class, 'pengumuman'])->name('pengumuman');
+  //  Route::get('/view_pengumuman/{id}', [HomeFrontendController::class, 'view_pengumuman'])->name('view_pengumuman');
+  //  Route::get('/profil_sekolah', [HomeFrontendController::class, 'profil_sekolah'])->name('profil_sekolah');
+
+  //  Route::get('/get_footer_kontak', [HomeFrontendController::class, 'get_footer_kontak'])->name('get_footer_kontak');
 
 
-     // Masyarakat
-        // Register
-            Route::resource('register','RegisterController');
-   
+  // Login
+  Route::get('/', [AuthController::class, 'index'])->name('login');
+  Route::post('/proses-login', [AuthController::class, 'proseslogin'])->name('proses_login');
+
 
 });
 
-// Domain Data Indonesia
-Route::get('provinces', [DependantDropdownController::class, 'provinces'])->name('provinces');
-Route::get('cities', [DependantDropdownController::class, 'cities'])->name('cities');
-Route::get('districts', [DependantDropdownController::class, 'districts'])->name('districts');
-Route::get('villages', [DependantDropdownController::class, 'villages'])->name('villages');
+Route::group(['middleware' => ['auth']], function () {
+  // Dashboard
+  Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::group(['middleware' => ['auth']], function() {
+  // Role
+  Route::get('/role', [RolesController::class, 'index'])->name('role.index');
+  Route::post('/role/store', [RolesController::class, 'store'])->name('role.store');
+  Route::get('/role/{id}/edit', [RolesController::class, 'edit'])->name('role.edit');
+  Route::post('role/role-delete', [RolesController::class,'delete']);
 
-    // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+   // Tahun AJaran
+  Route::get('/tahun_ajaran', [TahunAjaranController::class, 'index'])->name('tahun_ajaran.index');
+  Route::post('/tahun_ajaran/store', [TahunAjaranController::class, 'store'])->name('tahun_ajaran.store');
+  Route::get('/tahun_ajaran/{id}/edit', [TahunAjaranController::class, 'edit'])->name('tahun_ajaran.edit');
+  Route::post('tahun_ajaran/tahun_ajaran-delete', [TahunAjaranController::class,'delete']);
+  Route::post('tahun_ajaran/update-status/{id}', [TahunAjaranController::class, 'updateStatus'])->name('tahun_ajaran.updateStatus');
 
-    // Logout
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-    
-});
+  // Pegawai
+  Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
+  Route::post('/pegawai/store', [PegawaiController::class, 'store'])->name('pegawai.store');
+  Route::get('/pegawai/{id}/edit', [PegawaiController::class, 'edit'])->name('pegawai.edit');
+  Route::post('pegawai/pegawai-delete', [PegawaiController::class,'delete']);
+  Route::post('pegawai/update-status/{id}', [PegawaiController::class, 'updateStatus'])->name('pegawai.updateStatus');
 
-Route::group(['middleware' => ['auth','CekLevel:1']],function () {
-        Route::prefix('datamaster')->group(function() {
-            Route::get('/index', 'DataMasterController@index');
+  
+  // Kelas
+  Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
+  Route::post('/kelas/store', [KelasController::class, 'store'])->name('kelas.store');
+  Route::get('/kelas/{id}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
+  Route::post('kelas/kelas-delete', [KelasController::class,'delete']);
+  Route::post('kelas/update-status/{id}', [KelasController::class, 'updateStatus'])->name('kelas.updateStatus');
 
-            // Jenis Kelamin
-            Route::resource('jeniskelamin','JenisKelaminController');
-            Route::post('jeniskelamin/jeniskelamin-delete', [JenisKelaminController::class,'delete']);
+  // Mapel
+  Route::get('/mapel', [MataPelajaranController::class, 'index'])->name('mapel.index');
+  Route::post('/mapel/store', [MataPelajaranController::class, 'store'])->name('mapel.store');
+  Route::get('/mapel/{id}/edit', [MataPelajaranController::class, 'edit'])->name('mapel.edit');
+  Route::post('mapel/mapel-delete', [MataPelajaranController::class,'delete']);
+  Route::post('/mapel/update-status/{id}', [MataPelajaranController::class, 'updateStatus'])->name('mapel.updateStatus');
 
-            // Pendidikan
-            Route::resource('pendidikan','PendidikanController');
-            Route::post('pendidikan/pendidikan-delete', [PendidikanController::class,'delete']);
+  // Guru Mapel
+  Route::get('/guru_mapel', [GuruMapelController::class, 'index'])->name('guru_mapel.index');
+  Route::post('/guru_mapel/store', [GuruMapelController::class, 'store'])->name('guru_mapel.store');
+  Route::get('/guru_mapel/{id}/edit', [GuruMapelController::class, 'edit'])->name('guru_mapel.edit');
+  Route::post('guru_mapel/guru_mapel-delete', [GuruMapelController::class,'delete']);
 
-             // Agama
-            Route::resource('agama','AgamaController');
-            Route::post('agama/agama-delete', [AgamaController::class,'delete']);
+  // Siswa
+  Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
+  Route::post('/siswa/store', [SiswaController::class, 'store'])->name('siswa.store');
+  Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
+  Route::post('siswa/siswa-delete', [SiswaController::class,'delete']);
+  Route::post('siswa/update-status/{id}', [SiswaController::class, 'updateStatus']);
 
-            // Detail User
-            Route::resource('detailuser','DetailUserController');
-            Route::post('detail-user/detail-user-delete', [DetailUserController::class,'delete'])->name('delete_user');
+  // Ortu
+  Route::get('/ortu', [OrtuController::class, 'index'])->name('ortu.index');
+  Route::post('/ortu/store', [OrtuController::class, 'store'])->name('ortu.store');
+  Route::get('/ortu/{id}/edit', [OrtuController::class, 'edit'])->name('ortu.edit');
+  Route::post('ortu/ortu-delete', [OrtuController::class,'delete']);
 
-            // Validasi Permohonan
-            Route::get('validasi_permohonan', [AjukanPermohonanController::class, 'validasipermohonanadmin'])->name('validasipermohonanadmin.index');
-            Route::post('validasi_permohonan/prosesvalidasi', [AjukanPermohonanController::class,'prosesvalidasipermohonan'])->name('proses_validasi_permohonan');
-            Route::post('teruskan_permohonan/prosesteruskan', [AjukanPermohonanController::class,'prosesteruskanpermohonan'])->name('proses_teruskan_permohonan');
-        });
+  // Jenis Lomba
+  Route::get('/jenislomba', [JenisLombaController::class, 'index'])->name('jenislomba.index');
+  Route::post('/jenislomba/store', [JenisLombaController::class, 'store'])->name('jenislomba.store');
+  Route::get('/jenislomba/{id}/edit', [JenisLombaController::class, 'edit'])->name('jenislomba.edit');
+  Route::post('jenislomba/jenislomba-delete', [JenisLombaController::class,'delete']);
 
-});
-
-Route::group(['middleware' => ['auth','CekLevel:2']],function () {
-    Route::prefix('datamaster')->group(function() {
-
-        // Kasie Disposisi Permohonan
-        Route::get('disposisi_permohonank1', [AjukanPermohonanController::class, 'disposisipermohonankasie'])->name('disposisipermohonankasie.index');
-        Route::post('disposisi_permohonank1/prosesdisposisi', [AjukanPermohonanController::class,'prosesdisposisipermohonankasie'])->name('proses_disposisi_permohonan_kasie');
-    });
-
-});
-
-Route::group(['middleware' => ['auth','CekLevel:3']],function () {
-    Route::prefix('datamaster')->group(function() {
-
-        // Kabid Disposisi Permohonan
-        Route::get('disposisi_permohonank2', [AjukanPermohonanController::class, 'disposisipermohonankabid'])->name('disposisipermohonankabid.index');
-        Route::post('disposisi_permohonank2/prosesdisposisi', [AjukanPermohonanController::class,'prosesdisposisipermohonankabid'])->name('proses_disposisi_permohonan_kabid');
-    });
-
-});
-
-Route::group(['middleware' => ['auth','CekLevel:4']],function () {
-    Route::prefix('datamaster')->group(function() {
-        // Kadis Disposisi Permohonan
-        Route::get('disposisi_permohonank3', [AjukanPermohonanController::class, 'disposisipermohonankadis'])->name('disposisipermohonankadis.index');
-        Route::post('disposisi_permohonank3/prosesdisposisi', [AjukanPermohonanController::class,'prosesdisposisipermohonankadis'])->name('proses_disposisi_permohonan_kadis');
-
-        // Terbitkan Permohonan
-        Route::post('terbitkan_permohonan/prosesterbitkan', [AjukanPermohonanController::class,'prosesterbitkanpermohonan'])->name('proses_terbitkan_permohonan');
-    
-    });
-});
-
-Route::group(['middleware' => ['auth','CekLevel:5']],function () {
-    Route::prefix('datamaster')->group(function() {
-        // AjukanPermohonan
-        // Route::resource('ajukanpermohonan','AjukanPermohonanController');
-        Route::get('ajukanpermohonan', [AjukanPermohonanController::class, 'index'])->name('ajukanpermohonan.index');
-        Route::get('ajukanpermohonan/create', [AjukanPermohonanController::class, 'create'])->name('ajukanpermohonan.create');
-        Route::post('ajukanpermohonan/store', [AjukanPermohonanController::class, 'store'])->name('ajukanpermohonan.store');
-        Route::get('ajukanpermohonan/getwilayah', [AjukanPermohonanController::class, 'getwilayah'])->name('getwilayahsamausers');
-
-        Route::post('/getkabupatensamauser', [AjukanPermohonanController::class, 'getkabupatensamauser'])->name('getkabupatensamauser');
-        Route::post('/getkecamatansamauser', [AjukanPermohonanController::class, 'getkecamatansamauser'])->name('getkecamatansamauser');
-        Route::post('/getkelurahansamauser', [AjukanPermohonanController::class, 'getkelurahansamauser'])->name('getkelurahansamauser');
-        Route::get('/getprovinsi', [AjukanPermohonanController::class, 'getprovinsi'])->name('getprovinsi');
-    });
+  // Logout
+  Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 });
-
-Route::group(['middleware' => ['auth','CekLevel:1,4']],function () {
-    Route::prefix('datamaster')->group(function() {
-        // // Laporan Tabel DataTable Yajra
-        // Data Permohonan Diajukan PerTanggal
-        Route::get('datapermohonan_diajukan', [LaporanTableController::class, 'indexdatapermohonandiajukan'])->name('datapermohonandiajukan.index');
-        Route::post('datapermohonan_diajukan_search_per_tanggal', [LaporanTableController::class, 'searchdatapermohonandiajukan'])->name('datapermohonandiajukan.search_per_tanggal');
-        // Route::get('/cetak-data-permohonan-diajukan/{tanggalAwal}/{tanggalAkhir}', [LaporanTableController::class, 'cetakPermohonanDiajukan'])->name('cetak_permohonan_diajukan_pertanggal');
-        Route::get('permohonan-diajukan/cetak/', [LaporanTableController::class, 'cetakPermohonanDiajukan'])->name('cetak_permohonan_diajukan_pertanggal');
-
-
-
-          // Data Permohonan Diterbitkan PerTanggal
-          Route::get('datapermohonan_diterbitkan', [LaporanTableController::class, 'indexdatapermohonanditerbitkan'])->name('datapermohonanditerbitkan.index');
-          Route::post('datapermohonan_diterbitkan_search_per_tanggal', [LaporanTableController::class, 'searchdatapermohonanditerbitkan'])->name('datapermohonanditerbitkan.search_per_tanggal');
-
-        //   Data Permohonan Jenis Skala Tingkat Resiko
-        Route::get('datapermohonan_jenisskala_tingkatresiko', [LaporanTableController::class, 'indexdatapermohonanjenisskala_tingkatresiko'])->name('datapermohonanjenisskala_tingkatresiko.index');
-        Route::post('datapermohonan_jenisskala_tingkatresiko_search_per_tanggal', [LaporanTableController::class, 'searchdatapermohonanjenisskala_tingkatresiko'])->name('datapermohonanjenisskala_tingkatresiko.search_per_tanggal');
-
-        //   Data Permohonan Kecamatan dan Kelurahan
-        Route::get('datapermohonan_kecamatan_kelurahan', [LaporanTableController::class, 'indexdatapermohonankecamatan_kelurahan'])->name('datapermohonankecamatan_kelurahan.index');
-        Route::post('datapermohonan_kecamatan_kelurahan_search_per_tanggal', [LaporanTableController::class, 'searchdatapermohonankecamatan_kelurahan'])->name('datapermohonankecamatan_kelurahan.search_per_tanggal');
-
-        // Grafik
-         Route::get('jumlah-permohonan-diajukan', [GrafikController::class, 'indexdatapermohonandiajukan'])->name('jumlah_permohonan_diajukan.index');
-         Route::get('jumlah-permohonan-diterbitkan', [GrafikController::class, 'indexdatapermohonanditerbitkan'])->name('jumlah_permohonan_diterbitkan.index');
-         Route::get('jumlah-permohonan-perkecamatan', [GrafikController::class, 'indexdatapermohonanperkecamatan'])->name('jumlah_permohonan_perkecamatan.index');
-
-        // Detail Data Permohonan Diajukan
-        Route::get('/permohonandiajukan/detailshowdiajukan/{id}',[LaporanTableController::class, 'showdetaildatapermohonan'])->name('showdetaildatapermohonan');
-        // Route::get('/dip_frame/{id_skpd}/{filename}','PpidController@frame')->name('dip_frame');
-
-
-        // // Laporan Tabel DataTable Biasa
-        // // Data Permohonan Diajukan PerTanggal
-        // Route::get('datapermohonan_diajukan', [LaporanController::class, 'indexdatapermohonandiajukan'])->name('datapermohonandiajukan.index');
-        // Route::post('datapermohonan_diajukan_search_per_tanggal', [LaporanController::class, 'searchdatapermohonandiajukan'])->name('datapermohonandiajukan.search_per_tanggal');
-
-        //   // Data Permohonan Diterbitkan PerTanggal
-        //   Route::get('datapermohonan_diterbitkan', [LaporanController::class, 'indexdatapermohonanditerbitkan'])->name('datapermohonanditerbitkan.index');
-        //   Route::post('datapermohonan_diterbitkan_search_per_tanggal', [LaporanController::class, 'searchdatapermohonanditerbitkan'])->name('datapermohonanditerbitkan.search_per_tanggal');
-
-        // //   Data Permohonan Jenis Skala Tingkat Resiko
-        // Route::get('datapermohonan_jenisskala_tingkatresiko', [LaporanController::class, 'indexdatapermohonanjenisskala_tingkatresiko'])->name('datapermohonanjenisskala_tingkatresiko.index');
-        // Route::post('datapermohonan_jenisskala_tingkatresiko_search_per_tanggal', [LaporanController::class, 'searchdatapermohonanjenisskala_tingkatresiko'])->name('datapermohonanjenisskala_tingkatresiko.search_per_tanggal');
-
-        // //   Data Permohonan Kecamatan dan Kelurahan
-        // Route::get('datapermohonan_kecamatan_kelurahan', [LaporanController::class, 'indexdatapermohonankecamatan_kelurahan'])->name('datapermohonankecamatan_kelurahan.index');
-        // Route::post('datapermohonan_kecamatan_kelurahan_search_per_tanggal', [LaporanController::class, 'searchdatapermohonankecamatan_kelurahan'])->name('datapermohonankecamatan_kelurahan.search_per_tanggal');
-    });
-
-});
-
-
-
-

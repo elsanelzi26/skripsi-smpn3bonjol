@@ -17,7 +17,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    protected $table = 'tb_user';
+    protected $table = 'users';
     protected $primaryKey = 'id_user'; 
     // public $timestamps = false;
 

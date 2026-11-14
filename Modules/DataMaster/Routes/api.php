@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Modules\DataMaster\Http\Controllers\API\JabatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,21 +16,3 @@ use Modules\DataMaster\Http\Controllers\API\JabatanController;
 Route::middleware('auth:api')->get('/datamaster', function (Request $request) {
     return $request->user();
 });
-
-// //API route for register new user
-// Route::post('/register', [App\Http\Controllers\API\AuthController::class, 'register']);
-// //API route for login user
-// Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);
-
-//Protecting Routes
-// Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::prefix('datamaster/')->group(function() {
-    Route::resource('apijabatan', JabatanController::class);
-    // Route::get('/profile', function(Request $request) {
-    //     return auth()->user();
-    // });
-
-    // // API route for logout user
-    // Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
-    });
-// });

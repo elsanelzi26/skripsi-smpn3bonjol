@@ -200,12 +200,12 @@ return [
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         AzisHapidin\IndoRegion\IndoRegionServiceProvider::class,
 
-        Barryvdh\DomPDF\ServiceProvider::class,
-
-
         // QR Code
         // SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
+        // TCPDF
+        Elibyy\TCPDF\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -225,10 +225,14 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
 
-        'PDF' => Barryvdh\DomPDF\Facade::class,
-
         // QR Code
         // 'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+
+
+        // TCPDF
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
+
+
     ])->toArray(),
 
 ];

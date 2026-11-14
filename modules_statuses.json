@@ -9,5 +9,14 @@
     "Aaa": true,
     "Bbb": true,
     "CccModel": true,
-    "Latihan": true
+    "Latihan": true,
+    "Pendidikan": true,
+    "APIMODULE": true,
+    "ApiModule": true,
+    "Admin": true,
+    "Auth": true,
+    "Absensi": true,
+    "Penilaian": true,
+    "SiswaBermasalah": true,
+    "Laporan": true
 }

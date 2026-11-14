@@ -746,7 +746,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="footer">
-                            <p>2018 © Admin Board. - <a href="#">example.com</a></p>
+                            <p>2025 © SMPN 3 BONJOL. - </p>
                         </div>
                     </div>
                 </div>
@@ -754,4 +754,5 @@
         </div>
     </div>
 </div>
+
 @endsection
